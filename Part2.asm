@@ -14,10 +14,13 @@ outputText:  .asciiz " is a prime number.\n"
 main: # main program entry
 
             addi  $s0, $zero, 1     # $s0 = loop counter and holds numbers to be tested if prime
-            addi  $s1, $zero, 101   # To be used later - 100 is upper limit of numbers to test
+            addi  $s1, $zero, 0     # Counts the amount of prime numbers
+            addi  $s2, $zero, 100   # Used to test when we hit 100 prime numbers
 Loop:       add   $a0, $s0, $zero   # Load number into argument
             jal   test_Prime        # Jump to function
             beq   $v0, $zero, Skip  # If not prime, skip next steps
+            
+            addi  $s1, $s1, 1       # Increment prime number count
             
             addi  $v0, $zero, 1     # Load system call to print prime number
             syscall
@@ -27,30 +30,36 @@ Loop:       add   $a0, $s0, $zero   # Load number into argument
             syscall
 
 Skip:       addi  $s0, $s0, 1       # Increment number to test
-            bne   $s0, $s1, Loop    # Keep looping until we reach 101 (only testing up to 100 though)
+            bne   $s1, $s2, Loop    # Keep looping until we reach 101 (only testing up to 100 though)
             beq   $s0, $s1, Exit2   # Exit program
       
 #########################################################      
       
-test_Prime: addi  $t0, $zero, 1     # $t0 = number of divisors for argument, set to 1 because number always divisible by itself
-            div   $t1, $a0, 2       # $t1 = number that divides $a0, divided by 2 because we only need to check lower half of numbers
-	    addi, $t3, $zero, 3     # This will be used later on
+test_Prime: addi  $t0, $zero, 1     # $t0 = number of divisors for argument, 1 because number always divisible by itself
+            div   $t1, $a0, 2       # $t1 = number that divides $a0, divided by 2 - we only need to check lower half of numbers
+	    addi, $t3, $zero, 2     # This will be used later on for testing if prime or not
 Loop2:      div   $a0, $t1          # 1st part of modulus
             mfhi  $t2               # $t1 = number % dividing number
-            bne   $t2, $zero, Skip2 # See if argument is evenly divisible by $t1, then...
+            bne   $t2, $zero, Skip2 # See if argument is evenly divisible by $t1, If so...
             addi  $t0, $t0, 1	    # Increment count of divisors
 Skip2:      sub   $t1, $t1, 1       # Decrement dividing number
 
-  	    bne   $t0, $t3, Skip3   # $t3 = 3, if count is 3, then number is evenly divisible by more than 2 numbers = not prime
+  	    sgt   $t4, $t0, $t3     # $t3 = 2, check if count > 2, then number is evenly divisible by more than 2 numbers = not prime
+            beq   $t4, $zero, Skip3 # Continue looping if prior test was false, otherwise return 0 
             addi  $v0, $zero, 0     # load 0 into $V0
             jr    $ra               # Leave function early with 0 (as false)
       
-Skip3:      slt   $t4, $zero, $t1   # Check to see if dividing number is zero
-            beq   $t4, $zero, Exit  # If zero, exit
-            bne   $t4, $zero, Loop2 # Else, run loop again
+Skip3:      slt   $t5, $zero, $t1   # Check to see if dividing number is zero
+            beq   $t5, $zero, Exit  # If zero, exit
+            bne   $t5, $zero, Loop2 # Else, run loop again
             
             
-Exit:       addi  $v0, $zero, 1     # Leave loop, return to function with 1 (as true)
+Exit:       slt   $t4, $t0, $t3     # $t3 = 2, check if count < 2, only happens for number "1"
+            beq   $t4, $zero, Skip4 # If prior test was false... skip next instructions 
+            addi  $v0, $zero, 0     # load 0 into $V0
+            jr    $ra               # Leave function early with 0 (as false)
+
+Skip4:      addi  $v0, $zero, 1     # Leave loop, return to main with 1 (as true)
 	    jr    $ra
 	    
 Exit2:
