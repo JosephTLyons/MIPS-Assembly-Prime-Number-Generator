@@ -1,4 +1,4 @@
-# Title: Programming Project Part 2		#Filename: Part2.asm
+# Title: Programming Project Part 2		#Filename: PrimeNumbers.asm
 # Author: Joseph Lyons				#Date: February 15th, 2017
 # Description: Calculates and displays first 100 prime numbers
 # Input: None
