@@ -31,7 +31,7 @@ Loop:       add   $a0, $s0, $zero   # Load number into argument
 
 Skip:       addi  $s0, $s0, 1       # Increment number to test
             bne   $s1, $s2, Loop    # Keep looping until we reach 101 (only testing up to 100 though)
-            j Exit2                 # Exit program
+            j Exit2                 # Else, exit program
       
 #########################################################      
       
@@ -51,8 +51,7 @@ Skip2:      sub   $t1, $t1, 1       # Decrement dividing number
       
 Skip3:      slt   $t5, $zero, $t1   # Check to see if dividing number is zero
             beq   $t5, $zero, Exit  # If zero, exit
-            j Loop2                 # Else, run loop again
-            
+            j Loop2                 # Else, run loop again       
             
 Exit:       slt   $t4, $t0, $t3     # $t3 = 2, check if count < 2, only happens for number "1"
             beq   $t4, $zero, Skip4 # If prior test was false... skip next instructions 
