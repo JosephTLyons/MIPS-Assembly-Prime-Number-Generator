@@ -11,7 +11,7 @@ outputText:  .asciiz " is a prime number.\n"
 .text
 .globl main
 
-main: # main program entry
+main:
 
             addi  $s0, $zero, 1     # $s0 = loop counter and holds numbers to be tested if prime
             addi  $s1, $zero, 0     # Counts the amount of prime numbers
