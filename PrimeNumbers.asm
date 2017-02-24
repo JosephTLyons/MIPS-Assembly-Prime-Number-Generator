@@ -6,7 +6,7 @@
 ################# Data segment #####################
 .data
 
-outputText:  .asciiz " is a prime number.\n"
+outputText:  .asciiz " is prime\n"
 ################# Code segment #####################
 .text
 .globl main
@@ -22,10 +22,10 @@ Loop:       add   $a0, $s0, $zero   # Load number into argument
             
             addi  $s1, $s1, 1       # Increment prime number count
             
-            addi  $v0, $zero, 1     # Load system call to print prime number
+            li    $v0, 1            # Load system call to print prime number
             syscall
             
-            addi  $v0, $zero, 4     # Load system call to print input string
+            li    $v0, 4            # Load system call to print input string
             la    $a0, outputText   # Load input string for printing
             syscall
 
