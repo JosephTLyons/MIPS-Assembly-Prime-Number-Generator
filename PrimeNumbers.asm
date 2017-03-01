@@ -19,7 +19,7 @@ outputText:  .asciiz " is prime\n"
 # $t0 = Number of divisors for $a0
 # $t1 = Number that divides $a0
 # $t2 = 2: Max number of divisors before a number becomes not prime
-# $t3 = Remainder after dividing, used to test if number is evenly divisble when dividing or not
+# $t3 = Remainder after dividing, used to test if number is evenly divisible when dividing or not
 # $t4 = Holds 1 or 0 after slt instructions
 
 main:
