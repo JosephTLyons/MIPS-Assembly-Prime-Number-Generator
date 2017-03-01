@@ -12,7 +12,7 @@ outputText:  .asciiz " is prime\n"
 .globl main
 
 # Variable Key:
-# $s0 = loop counter and holds nubers to be tested for prime-ness
+# $s0 = loop counter and holds numbers to be tested for prime-ness
 # $s1 = Prime number count
 # $s2 = 100: Upper limit of prime numbers
 # $a0 = Number being tested for prime-ness
